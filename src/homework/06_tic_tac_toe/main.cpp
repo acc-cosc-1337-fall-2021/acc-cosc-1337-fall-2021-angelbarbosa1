@@ -14,13 +14,13 @@ string game_winner;
 
 play_again = "y";
 
-cout << "\nThis program is a game that is known as Tic-Tac-Toe\n";
+cout << "\nThis is the gameTic-Tac-Toe\n";
 
 do
 	{
 		do
 		{
-			cout << "\nDo you want to be 'X' or 'O'? ";
+			cout << "\nyou want to be 'X' or 'O'? ";
 			cin >> first_player;
 			strToUpper(first_player);
 		} while (first_player != "X" && first_player != "O");
@@ -40,16 +40,16 @@ do
 		game_winner = game.get_winner();
 		if(game_winner == "C")
 		{
-			cout << "It's a tie!\n";
+			cout << "It's a tie:(\n";
 		}
 		else
 		{
-			cout << "The winner is " << game_winner << "!  Congratulations!\n\n";
+			cout << "The winner is " << game_winner << "!  Congrats!\n\n";
 		}
 
 		game.start_game(first_player);
 
-		cout << "\nDo you want to play again?  Enter 'y' for 'yes' or 'n' for 'no': ";
+		cout << "\nyou do want to play again?  Enter 'y' for 'yes' or 'n' for 'no': ";
 		cin >> play_again;
 		strToLower(play_again);
 
