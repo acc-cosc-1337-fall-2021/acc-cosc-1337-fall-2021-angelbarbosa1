@@ -1,436 +1,244 @@
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include "catch.hpp"
 #include "tic_tac_toe.h"
-#include <iostream>
+#include "tic_tac_toe_manager.h"
 
-using std::cout;
-
-TEST_CASE("verify Test Configuration", "verification") {
+TEST_CASE("Verify Test Configuration", "verification") {
 	REQUIRE(true == true);
 }
 
-TEST_CASE("verify TicTacToe test case 1", "Test First Player Set to X")
-{
+TEST_CASE("First player set to X"){
 	TicTacToe game;
-
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	game_done = false;
-	first_player = "X";
-	int auto_positions[9] = {1,2,3,4,5,7,6,9,8};
-
-	game.start_game(first_player);
-	game.display_board();
-
-	do
-	{
-		position = auto_positions[i];
-		game.mark_board(position);
-		game_done = game.game_over();
-
-		if(game_done == true)
-		{
-			REQUIRE(i == 8);
-
-			game_winner = game.get_winner();
-			REQUIRE(first_player == "X");
-		}
-		
-		i++;
-	} while (game_done == false);
-
-	REQUIRE(i == 9);
+	game.start_game("X");
+	REQUIRE(game.get_player()=="X");
 }
 
-TEST_CASE("verify TicTacToe test case 2", "First Player Set to O")
-{
+TEST_CASE("Test first player set to O"){
 	TicTacToe game;
-
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	game_done = false;
-	first_player = "O";
-	int auto_positions[9] = {1,2,3,4,5,7,6,9,8};
-
-	game.start_game(first_player);
-	game.display_board();
-
-	do
-	{
-		position = auto_positions[i];
-		game.mark_board(position);
-		game_done = game.game_over();
-
-		if(game_done == true)
-		{
-			REQUIRE(i == 8);
-
-			game_winner = game.get_winner();
-			REQUIRE(first_player == "O");
-		}
-		
-		i++;
-	} while (game_done == false);
-
-	REQUIRE(i == 9);
+	game.start_game("O");
+	REQUIRE(game.get_player()=="O");
 }
 
-TEST_CASE("verify TicTacToe test case 3", "tied")
-{
+TEST_CASE("Test win by 1st column"){
 	TicTacToe game;
-
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	game_done = false;
-	first_player = "X";
-	int auto_positions[9] = {1,2,3,4,5,7,6,9,8};
-
-	game.start_game(first_player);
-	game.display_board();
-
-	do
-	{
-		position = auto_positions[i];
-		game.mark_board(position);
-		game_done = game.game_over();
-
-		if(game_done == true)
-		{
-			REQUIRE(i == 8);
-			game_winner = game.get_winner();
-			REQUIRE(game_winner == "C");
-		}
-		
-		i++;
-
-	} while (game_done == false);
-
-	REQUIRE(i == 9);
+	game.start_game("X");
+	game.mark_board(1);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(2);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(4);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(6);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(7);
+	REQUIRE(game.game_over()==true);
+	REQUIRE(game.get_winner()=="X");
 }
 
-TEST_CASE("verify TicTacToe test case 4", "Winner -1,4,7")
-{
+TEST_CASE("Test win by 2nd column"){
 	TicTacToe game;
-
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	game_done = false;
-	first_player = "X";
-	int auto_positions[9] = {1,2,4,5,7,3,6,8,9};
-
-	game.start_game(first_player);
-	game.display_board();
-
-	do
-	{
-		position = auto_positions[i];
-		game.mark_board(position);
-		game_done = game.game_over();
-
-		if(game_done == true)
-		{
-			REQUIRE(i == 4);
-
-			game_winner = game.get_winner();
-			REQUIRE(game_winner == "X");
-		}
-		
-		i++;
-
-	} while (game_done == false);
-
-	REQUIRE(i == 5);
+	game.start_game("X");
+	game.mark_board(2);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(3);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(5);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(6);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(8);
+	REQUIRE(game.game_over()==true);
+	REQUIRE(game.get_winner()=="X");
 }
 
-TEST_CASE("verify TicTacToe test case 5", "Winner - 2,5,8")
-{
+TEST_CASE("Test win by 3rdcolumn"){
 	TicTacToe game;
-
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	game_done = false;
-	first_player = "X";
-	int auto_positions[9] = {2,1,5,4,8,3,6,7,9};
-
-	game.start_game(first_player);
-	game.display_board();
-
-	do
-	{
-		position = auto_positions[i];
-		game.mark_board(position);
-		game_done = game.game_over();
-
-		if(game_done == true)
-		{
-			REQUIRE(i == 4);
-
-			game_winner = game.get_winner();
-			REQUIRE(game_winner == "X");
-		}
-		
-		i++;
-
-	} while (game_done == false);
-
-	REQUIRE(i == 5);
+	game.start_game("X");
+	game.mark_board(3);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(1);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(6);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(5);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(9);
+	REQUIRE(game.game_over()==true);
+	REQUIRE(game.get_winner()=="X");
 }
 
-TEST_CASE("verify TicTacToe test case 6", "Winner - 3,6,9")
-{
+TEST_CASE("Test win by 1st row"){
 	TicTacToe game;
-
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	game_done = false;
-	first_player = "X";
-	int auto_positions[9] = {3,1,6,4,9,2,5,7,8};
-
-	game.start_game(first_player);
-	game.display_board();
-
-	do
-	{
-		position = auto_positions[i];
-		game.mark_board(position);
-		game_done = game.game_over();
-
-		if(game_done == true)
-		{
-			REQUIRE(i == 4);
-
-			game_winner = game.get_winner();
-			REQUIRE(game_winner == "X");
-		}
-		
-		i++;
-
-	} while (game_done == false);
-
-	REQUIRE(i == 5);
+	game.start_game("X");
+	game.mark_board(1);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(4);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(2);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(9);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(3);
+	REQUIRE(game.game_over()==true);
+	REQUIRE(game.get_winner()=="X");
 }
 
-TEST_CASE("verify TicTacToe test case 7", "Winner - 1,2,3")
-{
+TEST_CASE("Test win by 2nd row"){
 	TicTacToe game;
-
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	game_done = false;
-	first_player = "X";
-	int auto_positions[9] = {1,4,2,5,3,7,6,8,9};
-
-	game.start_game(first_player);
-	game.display_board();
-
-	do
-	{
-		position = auto_positions[i];
-		game.mark_board(position);
-		game_done = game.game_over();
-
-		if(game_done == true)
-		{
-			REQUIRE(i == 4);
-
-			game_winner = game.get_winner();
-			REQUIRE(game_winner == "X");
-		}
-		
-		i++;
-
-	} while (game_done == false);
-
-	REQUIRE(i == 5);
+	game.start_game("X");
+	game.mark_board(4);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(1);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(5);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(9);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(6);
+	REQUIRE(game.game_over()==true);
+	REQUIRE(game.get_winner()=="X");
 }
 
-TEST_CASE("verify TicTacToe test case 8", "Winner 4,5,6")
-{
+TEST_CASE("Test win by 3rd row"){
 	TicTacToe game;
-
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	game_done = false;
-	first_player = "X";
-	int auto_positions[9] = {4,1,5,2,6,7,3,8,9};
-
-	game.start_game(first_player);
-	game.display_board();
-
-	do
-	{
-		position = auto_positions[i];
-		game.mark_board(position);
-		game_done = game.game_over();
-
-		if(game_done == true)
-		{
-			REQUIRE(i == 4);
-
-			game_winner = game.get_winner();
-			REQUIRE(game_winner == "X");
-		}
-		
-		i++;
-
-	} while (game_done == false);
-
-	REQUIRE(i == 5);
+	game.start_game("X");
+	game.mark_board(7);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(1);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(8);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(5);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(9);
+	REQUIRE(game.game_over()==true);
+	REQUIRE(game.get_winner()=="X");
 }
 
-TEST_CASE("verify TicTacToe test case 9", "Winner 7,8,9")
-{
+TEST_CASE("Test win by diagnol top left"){
 	TicTacToe game;
-
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	game_done = false;
-	first_player = "X";
-	int auto_positions[9] = {7,1,8,2,9,6,3,4,5};
-
-	game.start_game(first_player);
-	game.display_board();
-
-	do
-	{
-		position = auto_positions[i];
-		game.mark_board(position);
-		game_done = game.game_over();
-
-		if(game_done == true)
-		{
-			REQUIRE(i == 4);
-
-			game_winner = game.get_winner();
-			REQUIRE(game_winner == "X");
-		}
-
-		i++;
-
-	} while (game_done == false);
-
-	REQUIRE(i == 5);
+	game.start_game("X");
+	game.mark_board(1);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(2);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(5);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(3);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(9);
+	REQUIRE(game.game_over()==true);
+	REQUIRE(game.get_winner()=="X");
 }
 
-TEST_CASE("verify TicTacToe test case 10", "Winner - 1,5,9")
-{
+TEST_CASE("Test win by diagnol bottom left"){
 	TicTacToe game;
-
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	game_done = false;
-	first_player = "X";
-	int auto_positions[9] = {1,3,5,4,9,2,6,7,8};
-
-	game.start_game(first_player);
-	game.display_board();
-
-	do
-	{
-		position = auto_positions[i];
-		game.mark_board(position);
-		game_done = game.game_over();
-
-		if(game_done == true)
-		{
-				REQUIRE(i == 4);
-
-			game_winner = game.get_winner();
-			REQUIRE(game_winner == "X");
-		}
-		
-		i++;
-
-	} while (game_done == false);
-
-	REQUIRE(i == 5);
+	game.start_game("X");
+	game.mark_board(7);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(2);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(5);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(8);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(3);
+	REQUIRE(game.game_over()==true);
+	REQUIRE(game.get_winner()=="X");
 }
 
-TEST_CASE("verify TicTacToe test case 11", "Winne- 7,5,3")
-{
+TEST_CASE("Test case to determine if there is a tie"){
 	TicTacToe game;
+	game.start_game("X");
+	game.mark_board(1);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(5);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(2);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(3);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(7);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(4);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(6);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(9);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(8);
+	REQUIRE(game.game_over()==true);
+	REQUIRE(game.get_winner()=="C");
+}
 
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
+TEST_CASE("Test TicTacToe manager get winner total function"){
+	TicTacToe game;
+	TicTacToeManager session;
+	game.start_game("X");
+	game.mark_board(7);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(2);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(5);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(8);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(3);
+	REQUIRE(game.game_over()==true);
+	REQUIRE(game.get_winner()=="X");
+	session.save_game(game);
+	int x, o, t;
+	session.get_winner_total(x, o, t);
+	REQUIRE(x==1);
+	REQUIRE(o==0);
+	REQUIRE(t==0);
 
-	i = 0;
-	game_done = false;
-	first_player = "X";
-	int auto_positions[9] = {7,1,5,4,3,2,6,9,8};
+	game.start_game("X");
+	game.mark_board(7);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(2);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(5);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(8);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(3);
+	REQUIRE(game.game_over()==true);
+	REQUIRE(game.get_winner()=="X");
+	session.save_game(game);
+	session.get_winner_total(x, o, t);
+	REQUIRE(x==2);
+	REQUIRE(o==0);
+	REQUIRE(t==0);
 
-	game.start_game(first_player);
-	game.display_board();
 
-	do
-	{
-		position = auto_positions[i];
-		game.mark_board(position);
-		game_done = game.game_over();
+	game.start_game("X");
+	game.mark_board(1);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(5);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(2);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(3);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(7);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(4);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(6);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(9);
+	REQUIRE(game.game_over()==false);
+	game.mark_board(8);
+	REQUIRE(game.game_over()==true);
+	REQUIRE(game.get_winner()=="C");
 
-		if(game_done == true)
-		{
-				REQUIRE(i == 4);
+	session.save_game(game);
+	session.get_winner_total(x, o, t);
+	
+	REQUIRE(x==2);
+	REQUIRE(o==0);
+	REQUIRE(t==1);
 
-			game_winner = game.get_winner();
-			REQUIRE(game_winner == "X");
-		}
 
-		i++;
-
-	} while (game_done == false);
-
-	REQUIRE(i == 5);
 }
