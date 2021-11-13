@@ -1,63 +1,95 @@
-#include "tic_tac_toe.h"
+#include "tic_tac_toe_4.h"
+#include "tic_tac_toe_3.h"
 #include "tic_tac_toe_manager.h"
-#include <iostream>
-#include <string>
-#include <vector>
 
-using std::cout;
-using std::cin;
+using std::cin;using std::cout;using std::unique_ptr;using std::make_unique;
 
-std::string player;
-std::string winner;
+int main(){
 
+	unique_ptr<TicTacToe> game;
+	TicTacToeManager manager;
 
-int main() 
-{
-	TicTacToe game;
-	TicTacToeManager gamesession;
+	int version_choice;
+	int w, o, t;
+	int position;
+	string play_again;
+	string first_player;
+	string game_winner;
 
-	cout<<"This is the tic tac toe game"<<"\n";
-	std::string player_choice;
-	int x, o, t;
+	play_again = "y";
 
-	do{
-		cout<<"Enter X or O to play the game"<<"\n";
-		cout<<"Or Q to quit the game"<<"\n";
-		cin>>player_choice;
-		game.start_game(player_choice);
+	cout << "\nThis is the game TicTacToe.\n";
 
-		if (player_choice=="X"||player_choice=="O"){
-				
-				while (game.game_over()!=true){
-				cin>>game;
-				cout<<game;
-				}
+	do
+	{
+		game_menu();
+		cin >> version_choice;
 
-			cout<<"The winner is "<<game.get_winner()<<"\n";
-
-			gamesession.save_game(game);
-			gamesession.get_winner_total(x, o, t);
-			cout<<"O Total Wins ="<<o<<"\n";
-        	cout<<"X Total Wins ="<<x<<"\n";
-        	cout<<"Total Ties ="<<t<<"\n";
-			cout<<"\n";
-			cout<<"Select X or O to play again"<<"\n";
+		if(version_choice == 1)
+		{
+			game = make_unique<TicTacToe3>();
+		}
+		else
+		{
+			game = make_unique<TicTacToe4>();
 		}
 
-		else if(player_choice=="Q"){
-			break;
-		}
+		do
+		{
+			cout << "\nDo you want 'X' or 'O'? ";
+			cin >> first_player;
+			strToUpper(first_player);
+			
+		} while (first_player != "X" && first_player != "O");
 
-		else{
-			cout<<"This is not valid selection"<<"\n";
-		}
+		game->start_game(first_player);
+		cout << *game;
 		
-	}while (player_choice!="Q");
+		do
+		{
+			cin >> *game;
 
-	cout<<"This is the end of the game.\n";
-   	cout<<"These are the games you just played.\n";
+			cout << *game;
+
+		} while (game->game_over() == false);
+
+		cout << "Game Over\n\n";
+
+		game_winner = game->get_winner();
+
+		if(game_winner == "C")
+		{
+			cout << "Its a tie.\n";
+		}
+		else
+		{
+			cout << "The winner is " << game_winner << "!  Congrats!\n\n";
+		}
+
+		manager.save_game(move(game)); // use with function def argument &&
+
+		manager.get_winner_total(w,o,t);
+
+		cout << "Running Totals:\n";
+		cout << "X: " << w << "\n";
+		cout << "O: " << o << "\n";
+		cout << "Tie: " << t << "\n";
+
+		cin >> play_again;
+		strToLower(play_again);
+
+	} while (play_again == "y");
 	
-	cout<<gamesession;
+	manager.get_winner_total(w,o,t);
+
+	cout << "\nFinal Totals:\n";
+	cout << "X: " << w << "\n";
+	cout << "O: " << o << "\n";
+	cout << "Tie: " << t << "\n";
+
+	cout << manager;
+
+	cout << "\nThe end.\n";
+	
 
 	return 0;
-}
