@@ -1,79 +1,59 @@
-// include
 #include "tic_tac_toe_4.h"
 
-bool TicTacToe4::check_column_win()
+
+bool Tic_tac_4::check_column_win()
 {
-    bool you_win;
-    string last_player;
-
-    you_win = false;
-    last_player = (get_player() == "X") ? "O" : "X";
-
-    if(pegs[0]==last_player && pegs[4] == last_player && pegs[8] == last_player && pegs[12] == last_player)
+    if((pegs[0] == "X" && pegs[4] == "X" && pegs[8] == "X" && pegs[12] == "X")||(pegs[0] == "O" && pegs[4] == "O" && pegs[8] == "O" && pegs[12] == "O"))
     {
-        you_win = true;
+    return true;
     }
-    else if(pegs[1]==last_player && pegs[5] == last_player && pegs[9] == last_player && pegs[13] == last_player)
+    else if((pegs[1] == "X" && pegs[5] == "X" && pegs[9] == "X" && pegs[13] == "X")||(pegs[1] == "O" && pegs[5] == "O" && pegs[9] == "O" && pegs[13] == "O"))
     {
-        you_win = true;
+    return true;
     }
-    else if(pegs[2]==last_player && pegs[6] == last_player && pegs[10] == last_player && pegs[14] == last_player)
+    else if ((pegs[2] == "X" && pegs[6] == "X" && pegs[10] == "X" && pegs[14] == "X")||(pegs[2] == "O" && pegs[6] == "O" && pegs[10] == "O" && pegs[14] == "O"))
     {
-        you_win = true;
+    return true;
     }
-    else if(pegs[3]==last_player && pegs[7] == last_player && pegs[11] == last_player && pegs[15] == last_player)
+    else if ((pegs[3] == "X" && pegs[7] == "X" && pegs[11] == "X" && pegs[15] == "X")||(pegs[3] == "O" && pegs[7] == "O" && pegs[11] == "O" && pegs[15] == "O"))
     {
-        you_win = true;
+    return true;
     }
-    return you_win;
+    return false;
 }
 
 
-
-bool TicTacToe4::check_row_win()
+bool Tic_tac_4::check_row_win()
 {
-    bool you_win;
-    string last_player;
-
-    you_win = false;
-    last_player = (get_player() == "X") ? "O" : "X";
-
-    if(pegs[0]==last_player && pegs[1] == last_player && pegs[2] == last_player && pegs[3] == last_player)
+    if((pegs[0] == "X" && pegs[1] == "X" && pegs[2] == "X" && pegs[3] == "X")||(pegs[0] == "O" && pegs[1] == "O" && pegs[2] == "O" && pegs[3] == "O"))
     {
-    you_win = true;
+    return true;
     }
-    else if(pegs[4]==last_player && pegs[5] == last_player && pegs[6] == last_player && pegs[7] == last_player)
+    else if((pegs[4] == "X" && pegs[5] == "X" && pegs[6] == "X" && pegs[7] == "X")||(pegs[4] == "O" && pegs[5] == "O" && pegs[6] == "O" && pegs[7] == "O"))
     {
-    you_win = true;
+    return true;
     }
-    else if(pegs[8]==last_player && pegs[9] == last_player && pegs[10] == last_player && pegs[11] == last_player)
+    else if ((pegs[8] == "X" && pegs[9] == "X" && pegs[10] == "X" && pegs[11] == "X")||(pegs[8] == "O" && pegs[9] == "O" && pegs[10] == "O" && pegs[11] == "O"))
     {
-    you_win = true;
+    return true;
     }
-    else if(pegs[12]==last_player && pegs[13] == last_player && pegs[14] == last_player && pegs[15] == last_player)
+    else if ((pegs[12] == "X" && pegs[13] == "X" && pegs[14] == "X" && pegs[15] == "X")||(pegs[12] == "O" && pegs[13] == "O" && pegs[14] == "O" && pegs[15] == "O"))
     {
-    you_win = true;
+    return true;
     }
-
-    return you_win;
+    return false;
 }
 
-bool TicTacToe4::check_diagonal_win()
+
+bool Tic_tac_4::check_diagonal_win()
 {
-    bool you_win;
-    string last_player;
-
-    you_win = false;
-    last_player = (get_player() == "X") ? "O" : "X";
-
-    if(pegs[0] == last_player && pegs[5] == last_player && pegs[10] == last_player && pegs[15] == last_player)
+    if((pegs[0] == "X" && pegs[5] == "X" && pegs[10] == "X" && pegs[15] == "X")||(pegs[0] == "O" && pegs[5] == "O" && pegs[10] == "O" && pegs[15] == "O"))
     {
-        you_win = true;
+    return true;
     }
-    else if(pegs[3] == last_player && pegs[6] == last_player && pegs[9] == last_player && pegs[12] == last_player)
+    else if((pegs[3] == "X" && pegs[6] == "X" && pegs[9] == "X" && pegs[12] == "X")||(pegs[3] == "O" && pegs[6] == "O" && pegs[9] == "O" && pegs[12] == "O"))
     {
-        you_win = true;
+    return true;
     }
-
-    return you_win;
+    return false;
 }

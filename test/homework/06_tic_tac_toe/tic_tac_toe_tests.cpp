@@ -1,621 +1,454 @@
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include "catch.hpp"
-#include "tic_tac_toe_4.h"
-#include "tic_tac_toe_3.h"
-#include "tic_tac_toe_manager.h"
 #include "tic_tac_toe.h"
-
-using std::cout;using std::unique_ptr;using std::make_unique;using std::move;
-
+#include "tic_tac_toe_3.h"
+#include "tic_tac_toe_4.h"
+#include "tic_tac_toe_manager.h"
+using std::make_unique;
 TEST_CASE("Verify Test Configuration", "verification") {
 	REQUIRE(true == true);
 }
 
-TEST_CASE("Verify Tic-Tac-Toe Test Case 1", "3X3 - Validate TicTacToe getwinner function")
+TEST_CASE("Verify if board is full function works")
 {
-	TicTacToeManager manager;
-
-	int i;
-	int ix;
-	int w, o, t;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	first_player = "X";
-	game_done = false;
-	string auto_player[] = {"X","O","X"};
-	int auto_positions[][9] = 	{ 	{1,2,3,4,5,7,6,9,8},
-									{2,1,5,4,8,3,6,7,9},
-									{4,1,5,2,6,7,3,8,9}
-								};
-
-	do
-	{
-		game = make_unique<TicTacToe3>();
-
-		game->start_game(auto_player[i]);
-		cout << *game;
-		
-		ix = 0;
-
-		do
-		{
-			position = auto_positions[i][ix];
-			game->mark_board(position);
-			game_done = game->game_over();
-
-			if(game_done == true)
-			{
-				game_winner = game->get_winner();
-
-				if(i == 0)
-				{
-					REQUIRE(game_winner == "C");
-
-					REQUIRE(ix == 8);
-				}
-				else if(i == 1)
-				{
-					REQUIRE(game_winner == "O");
-
-					REQUIRE(ix == 4);
-				}
-				else
-				{
-					REQUIRE(game_winner == "X");
-
-					REQUIRE(ix == 4);
-				}
-			}
-
-			ix++;
-
-		} while (game_done == false);
-
-		manager.save_game(move(game));
-
-		i++;
-
-	} while(i < 3);
-
-	REQUIRE(i == 3);
-
-	manager.get_winner_total(w,o,t);
-	REQUIRE(w == 1);
-	REQUIRE(o == 1);
-	REQUIRE(t == 1);
+	unique_ptr<Tic_tac> game = make_unique<Tic_tac_3> ();
+	game ->start_game("X");
+	game ->mark_board(2);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(1);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(4);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(3);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(5);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(6);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(7);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(8);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(9);
+	REQUIRE(game ->game_over() == true);
+	REQUIRE(game ->get_winner() == "C");
+	
 }
 
-TEST_CASE("Verify Tic-Tac-Toe Test Case 2", "4X4 - Test First Player Set to X")
+TEST_CASE("Test first player set to X")
 {
-	unique_ptr<TicTacToe> game;
-	TicTacToeManager manager;
-
-	game = make_unique<TicTacToe4>();
-
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	game_done = false;
-	first_player = "X";
-	int auto_positions[16] = {1,2,3,4,6,5,7,8,9,10,12,11,14,13,16,15};
-
-	game->start_game(first_player);
-	cout << *game;
-
-	do
-	{
-		position = auto_positions[i];
-		game->mark_board(position);
-		game_done = game->game_over();
-
-		if(game_done == true)
-		{
-			REQUIRE(i == 15);
-
-			REQUIRE(first_player == "X");
-		}
-		
-		i++;
-	} while (game_done == false);
-
-	REQUIRE(i == 16);
+	unique_ptr<Tic_tac> game = make_unique<Tic_tac_3> ();
+	game ->start_game("X");
+	REQUIRE(game ->get_player() == "X");
 }
 
-TEST_CASE("Verify Tic-Tac-Toe Test Case 3", "4X4 - Test First Player Set to O")
+TEST_CASE("Test first player set to O")
 {
-	unique_ptr<TicTacToe> game;
-	TicTacToeManager manager;
-
-	game = make_unique<TicTacToe4>();
-
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	game_done = false;
-	first_player = "O";
-	int auto_positions[16] = {1,2,3,4,6,5,7,8,9,10,12,11,14,13,16,15};
-
-	game->start_game(first_player);
-	cout << *game;
-
-	do
-	{
-		position = auto_positions[i];
-		game->mark_board(position);
-		game_done = game->game_over();
-
-		if(game_done == true)
-		{
-			REQUIRE(i == 15);
-      
-			REQUIRE(first_player == "O");
-		}
-		
-		i++;
-	} while (game_done == false);
-
-	REQUIRE(i == 16);
+	unique_ptr<Tic_tac> game = make_unique<Tic_tac_3> ();
+	game ->start_game("O");
+	REQUIRE(game ->get_player() == "O");
 }
 
-TEST_CASE("Verify Tic-Tac-Toe Test Case 4", "4X4 - Tie Game - No Winner")
+TEST_CASE("Test win by first column")
 {
-	unique_ptr<TicTacToe> game;
-	TicTacToeManager manager;
-
-	game = make_unique<TicTacToe4>();
-
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	game_done = false;
-	first_player = "X";
-	int auto_positions[16] = {1,2,3,4,6,5,7,8,9,10,12,11,14,13,16,15};
-
-	game->start_game(first_player);
-	cout << *game;
-
-	do
-	{
-		position = auto_positions[i];
-		game->mark_board(position);
-		game_done = game->game_over();
-
-		if(game_done == true)
-		{
-			REQUIRE(i == 15);
-
-			game_winner = game->get_winner();
-			REQUIRE(game_winner == "C");
-		}
-		
-		i++;
-	} while (game_done == false);
-
-	REQUIRE(i == 16);
+	unique_ptr<Tic_tac> game = make_unique<Tic_tac_3> ();
+	game ->start_game("X");
+	game ->mark_board(1);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(2);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(4);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(5);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(7);
+	REQUIRE(game->game_over() == true);
+	REQUIRE(game ->get_winner() == "X");
 }
 
-TEST_CASE("Verify Tic-Tac-Toe Test Case 5", "4X4 - Winner - Test Column Win 1,5,9,13")
+TEST_CASE("Test win by second column")
 {
-	unique_ptr<TicTacToe> game;
-	TicTacToeManager manager;
-
-	game = make_unique<TicTacToe4>();
-
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	game_done = false;
-	first_player = "X";
-	int auto_positions[16] = {1,2,5,6,9,10,13,14,3,4,7,8,11,12,16,15};
-
-	game->start_game(first_player);
-	cout << *game;
-
-	do
-	{
-		position = auto_positions[i];
-		game->mark_board(position);
-		game_done = game->game_over();
-
-		if(game_done == true)
-		{
-			REQUIRE(i == 6);
-
-			game_winner = game->get_winner();
-			REQUIRE(game_winner == "X");
-		}
-		
-		i++;
-	} while (game_done == false);
-
-	REQUIRE(i == 7);
+	unique_ptr<Tic_tac> game = make_unique<Tic_tac_3> ();
+	game ->start_game("O");
+	game ->mark_board(2);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(3);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(5);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(7);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(8);
+	REQUIRE(game->game_over() == true);
+	REQUIRE(game ->get_winner() == "O");
 }
 
-TEST_CASE("Verify Tic-Tac-Toe Test Case 6", "Winner - Test Column Win 2,6,10,14")
+TEST_CASE("Test win by third column")
 {
-	unique_ptr<TicTacToe> game;
-	TicTacToeManager manager;
-
-	game = make_unique<TicTacToe4>();
-
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	game_done = false;
-	first_player = "X";
-	int auto_positions[16] = {2,1,6,5,10,9,14,13,15,3,4,7,8,11,12,16};
-
-	game->start_game(first_player);
-	cout << *game;
-
-	do
-	{
-		position = auto_positions[i];
-		game->mark_board(position);
-		game_done = game->game_over();
-
-		if(game_done == true)
-		{
-			REQUIRE(i == 6);
-
-			game_winner = game->get_winner();
-			REQUIRE(game_winner == "X");
-		}
-		
-		i++;
-	} while (game_done == false);
-
-	REQUIRE(i == 7);
+	unique_ptr<Tic_tac> game = make_unique<Tic_tac_3> ();
+	game ->start_game("X");
+	game ->mark_board(3);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(2);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(6);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(5);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(9);
+	REQUIRE(game->game_over() == true);
+	REQUIRE(game ->get_winner() == "X");
 }
 
-TEST_CASE("Verify Tic-Tac-Toe Test Case 7", "Winner - Test Column Win 3,7,11,15")
+TEST_CASE("Test win by first row")
 {
-	unique_ptr<TicTacToe> game;
-	TicTacToeManager manager;
-
-	game = make_unique<TicTacToe4>();
-
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	game_done = false;
-	first_player = "X";
-	int auto_positions[16] = {3,1,7,5,11,9,15,13,14,2,4,6,8,10,12,16};
-
-	game->start_game(first_player);
-	cout << *game;
-
-	do
-	{
-		position = auto_positions[i];
-		game->mark_board(position);
-		game_done = game->game_over();
-
-		if(game_done == true)
-		{
-			REQUIRE(i == 6);
-
-			game_winner = game->get_winner();
-			REQUIRE(game_winner == "X");
-		}
-		
-		i++;
-	} while (game_done == false);
-
-	REQUIRE(i == 7);
+	unique_ptr<Tic_tac> game = make_unique<Tic_tac_3> ();
+	game ->start_game("O");
+	game ->mark_board(1);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(4);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(2);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(5);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(3);
+	REQUIRE(game->game_over() == true);
+	REQUIRE(game ->get_winner() == "O");
 }
 
-TEST_CASE("Verify Tic-Tac-Toe Test Case 8", "Winner - Test Column Win 4,8,12,16")
+TEST_CASE("Test win by second row")
 {
-	unique_ptr<TicTacToe> game;
-	TicTacToeManager manager;
-
-	game = make_unique<TicTacToe4>();
-
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	game_done = false;
-	first_player = "X";
-	int auto_positions[16] = {4,1,8,5,12,9,16,13,14,2,3,6,10,7,11,15};
-
-	game->start_game(first_player);
-	cout << *game;
-
-	do
-	{
-		position = auto_positions[i];
-		game->mark_board(position);
-		game_done = game->game_over();
-
-		if(game_done == true)
-		{
-			REQUIRE(i == 6);
-
-			game_winner = game->get_winner();
-			REQUIRE(game_winner == "X");
-		}
-		
-		i++;
-	} while (game_done == false);
-
-	REQUIRE(i == 7);
+	unique_ptr<Tic_tac> game = make_unique<Tic_tac_3> ();
+	game ->start_game("X");
+	game ->mark_board(4);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(2);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(5);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(3);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(6);
+	REQUIRE(game->game_over() == true);
+	REQUIRE(game ->get_winner() == "X");
 }
 
-TEST_CASE("Verify Tic-Tac-Toe Test Case 9", "Winner - Test Row Win 1,2,3,4")
+TEST_CASE("Test win by third row")
 {
-	unique_ptr<TicTacToe> game;
-	TicTacToeManager manager;
-
-	game = make_unique<TicTacToe4>();
-
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	game_done = false;
-	first_player = "X";
-	int auto_positions[16] = {1,5,2,6,3,7,4,8,9,12,13,10,11,14,15,16};
-
-	game->start_game(first_player);
-	cout << *game;
-
-	do
-	{
-		position = auto_positions[i];
-		game->mark_board(position);
-		game_done = game->game_over();
-
-		if(game_done == true)
-		{
-			REQUIRE(i == 6);
-
-			game_winner = game->get_winner();
-			REQUIRE(game_winner == "X");
-		}
-		
-		i++;
-	} while (game_done == false);
-
-	REQUIRE(i == 7);
+	unique_ptr<Tic_tac> game = make_unique<Tic_tac_3> ();
+	game ->start_game("O");
+	game ->mark_board(7);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(2);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(8);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(3);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(9);
+	REQUIRE(game->game_over() == true);
+	REQUIRE(game ->get_winner() == "O");
 }
 
-TEST_CASE("Verify Tic-Tac-Toe Test Case 10", "Winner - Test Row Win 5,6,7,8")
+TEST_CASE("Test win diagonally from top left")
 {
-	unique_ptr<TicTacToe> game;
-	TicTacToeManager manager;
+	unique_ptr<Tic_tac> game = make_unique<Tic_tac_3> ();
+	game ->start_game("X");
+	game ->mark_board(1);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(2);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(5);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(3);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(9);
+	REQUIRE(game->game_over() == true);
+	REQUIRE(game ->get_winner() == "X");
 
-	game = make_unique<TicTacToe4>();
-
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	game_done = false;
-	first_player = "X";
-	int auto_positions[16] = {5,2,6,3,7,4,8,9,12,13,10,11,14,15,16,1};
-
-	game->start_game(first_player);
-	cout << *game;
-
-	do
-	{
-		position = auto_positions[i];
-		game->mark_board(position);
-		game_done = game->game_over();
-
-		if(game_done == true)
-		{
-			REQUIRE(i == 6);
-
-			game_winner = game->get_winner();
-			REQUIRE(game_winner == "X");
-		}
-		
-		i++;
-	} while (game_done == false);
-
-	REQUIRE(i == 7);
 }
 
-TEST_CASE("Verify Tic-Tac-Toe Test Case 11", "Winner - Test Row Win 9.10,11,12")
+TEST_CASE("Test win diagonally from bottom left")
 {
-	unique_ptr<TicTacToe> game;
-	TicTacToeManager manager;
-
-	game = make_unique<TicTacToe4>();
-
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	game_done = false;
-	first_player = "X";
-	int auto_positions[16] = {9,5,10,6,11,7,12,1,2,3,4,8,13,14,15,16};
-
-	game->start_game(first_player);
-	cout << *game;
-
-	do
-	{
-		position = auto_positions[i];
-		game->mark_board(position);
-		game_done = game->game_over();
-
-		if(game_done == true)
-		{
-			REQUIRE(i == 6);
-
-			game_winner = game->get_winner();
-			REQUIRE(game_winner == "X");
-		}
-		
-		i++;
-	} while (game_done == false);
-
-	REQUIRE(i == 7);
+	unique_ptr<Tic_tac> game = make_unique<Tic_tac_3> ();
+	game ->start_game("O");
+	game ->mark_board(7);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(2);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(5);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(6);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(3);
+	REQUIRE(game->game_over() == true);
+	REQUIRE(game ->get_winner() == "O");
 }
 
-TEST_CASE("Verify Tic-Tac-Toe Test Case 12", "Winner - Test Row Win 13,14,15,16")
+TEST_CASE("Test win by first column 4")
 {
-	unique_ptr<TicTacToe> game;
-	TicTacToeManager manager;
-
-	game = make_unique<TicTacToe4>();
-
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	game_done = false;
-	first_player = "X";
-	int auto_positions[16] = {13,9,14,10,15,11,16,12,1,2,3,4,5,6,7,8};
-
-	game->start_game(first_player);
-	cout << *game;
-
-	do
-	{
-		position = auto_positions[i];
-		game->mark_board(position);
-		game_done = game->game_over();
-
-		if(game_done == true)
-		{
-			REQUIRE(i == 6);
-
-			game_winner = game->get_winner();
-			REQUIRE(game_winner == "X");
-		}
-		
-		i++;
-	} while (game_done == false);
-
-	REQUIRE(i == 7);
+	unique_ptr<Tic_tac> game = make_unique<Tic_tac_4> ();
+	game ->start_game("X");
+	game ->mark_board(1);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(2);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(5);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(10);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(9);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(11);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(13);
+	REQUIRE(game->game_over() == true);
+	REQUIRE(game ->get_winner() == "X");
 }
 
-TEST_CASE("Verify Tic-Tac-Toe Test Case 13", "Winner - Test Diagonal Win 1,6,11,16")
+TEST_CASE("Test win by second column 4")
 {
-	unique_ptr<TicTacToe> game;
-	TicTacToeManager manager;
-
-	game = make_unique<TicTacToe4>();
-
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
-
-	i = 0;
-	game_done = false;
-	first_player = "X";
-	int auto_positions[16] = {1,2,6,3,11,10,16,9,12,13,4,5,7,8,14,15};
-
-	game->start_game(first_player);
-	cout << *game;
-
-	do
-	{
-		position = auto_positions[i];
-		game->mark_board(position);
-		game_done = game->game_over();
-
-		if(game_done == true)
-		{
-			REQUIRE(i == 6);
-
-			game_winner = game->get_winner();
-			REQUIRE(game_winner == "X");
-		}
-		
-		i++;
-	} while (game_done == false);
-
-	REQUIRE(i == 7);
+	unique_ptr<Tic_tac> game = make_unique<Tic_tac_4> ();
+	game ->start_game("O");
+	game ->mark_board(2);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(1);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(6);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(13);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(10);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(8);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(14);
+	REQUIRE(game->game_over() == true);
+	REQUIRE(game ->get_winner() == "O");
 }
 
-TEST_CASE("Verify Tic-Tac-Toe Test Case 14", "Winner - Test Diagonal Win 4,7,10,13")
+TEST_CASE("Test win by third column 4")
 {
-	unique_ptr<TicTacToe> game;
-	TicTacToeManager manager;
+	unique_ptr<Tic_tac> game = make_unique<Tic_tac_4> ();
+	game ->start_game("X");
+	game ->mark_board(3);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(2);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(7);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(10);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(11);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(16);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(15);
+	REQUIRE(game->game_over() == true);
+	REQUIRE(game ->get_winner() == "X");
+}
 
-	game = make_unique<TicTacToe4>();
+TEST_CASE("Test win by fourth column 4")
+{
+	unique_ptr<Tic_tac> game = make_unique<Tic_tac_4> ();
+	game ->start_game("O");
+	game ->mark_board(4);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(2);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(8);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(1);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(12);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(15);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(16);
+	REQUIRE(game->game_over() == true);
+	REQUIRE(game ->get_winner() == "O");
+}
 
-	int i;
-	int position;
-	bool game_done;
-	string first_player;
-	string game_winner;
+TEST_CASE("Test win by first row 4")
+{
+	unique_ptr<Tic_tac> game = make_unique<Tic_tac_4> ();
+	game ->start_game("O");
+	game ->mark_board(1);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(5);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(2);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(6);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(3);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(15);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(4);
+	REQUIRE(game->game_over() == true);
+	REQUIRE(game ->get_winner() == "O");
+}
 
-	i = 0;
-	game_done = false;
-	first_player = "X";
-	int auto_positions[16] = {4,2,7,3,10,1,13,9,12,13,2,5,8,14,15,16};
+TEST_CASE("Test win by second row 4")
+{
+	unique_ptr<Tic_tac> game = make_unique<Tic_tac_4> ();
+	game ->start_game("X");
+	game ->mark_board(5);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(4);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(6);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(10);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(7);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(16);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(8);
+	REQUIRE(game->game_over() == true);
+	REQUIRE(game ->get_winner() == "X");
+}
 
-	game->start_game(first_player);
-	cout << *game;
+TEST_CASE("Test win by third row 4")
+{
+	unique_ptr<Tic_tac> game = make_unique<Tic_tac_4> ();
+	game ->start_game("O");
+	game ->mark_board(9);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(5);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(10);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(6);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(11);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(15);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(12);
+	REQUIRE(game->game_over() == true);
+	REQUIRE(game ->get_winner() == "O");
+}
 
-	do
-	{
-		position = auto_positions[i];
-		game->mark_board(position);
-		game_done = game->game_over();
+TEST_CASE("Test win by forth row 4")
+{
+	unique_ptr<Tic_tac> game = make_unique<Tic_tac_4> ();
+	game ->start_game("O");
+	game ->mark_board(13);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(5);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(14);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(6);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(15);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(1);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(16);
+	REQUIRE(game->game_over() == true);
+	REQUIRE(game ->get_winner() == "O");
+}
 
-		if(game_done == true)
-		{
-			REQUIRE(i == 6);
+TEST_CASE("Test win diagonally from top left 4")
+{
+	unique_ptr<Tic_tac> game = make_unique<Tic_tac_4> ();
+	game ->start_game("X");
+	game ->mark_board(1);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(5);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(6);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(7);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(11);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(3);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(16);
+	REQUIRE(game ->game_over() == true);
+	REQUIRE(game ->get_winner() == "X");
 
-			game_winner = game->get_winner();
-			REQUIRE(game_winner == "X");
-		}
-		
-		i++;
-	} while (game_done == false);
+}
 
-	REQUIRE(i == 7);
+TEST_CASE("Test win diagonally from bottom left 4")
+{
+	unique_ptr<Tic_tac> game = make_unique<Tic_tac_4> ();
+	game ->start_game("O");
+	game ->mark_board(13);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(5);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(10);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(9);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(7);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(1);
+	REQUIRE(game ->game_over() == false);
+	game ->mark_board(4);
+	REQUIRE(game->game_over() == true);
+	REQUIRE(game ->get_winner() == "O");
+}
+
+TEST_CASE("Test Manager")
+{
+	Tic_tac_manager manager;
+	unique_ptr<Tic_tac> game = make_unique<Tic_tac_3> ();
+	int x_wins, o_wins, ties;
+	game -> start_game("X");
+	game ->mark_board(2);
+	REQUIRE(game -> game_over() == false);
+	game -> mark_board(1);
+	REQUIRE(game -> game_over() == false);
+	game -> mark_board(4);
+	REQUIRE(game -> game_over() == false);
+	game -> mark_board(3);
+	REQUIRE(game -> game_over() == false);
+	game -> mark_board(5);
+	REQUIRE(game -> game_over() == false);
+	game -> mark_board(6);
+	REQUIRE(game -> game_over() == false);
+	game -> mark_board(7);
+	REQUIRE(game -> game_over() == false);
+	game -> mark_board(8);
+	REQUIRE(game -> game_over() == false);
+	game -> mark_board(9);
+	REQUIRE(game -> game_over() == true);
+	manager.save_game(game);
+	game -> start_game("X");
+	game -> mark_board(7);
+	REQUIRE(game -> game_over() == false);
+	game -> mark_board(2);
+	REQUIRE(game -> game_over() == false);
+	game -> mark_board(5);
+	REQUIRE(game -> game_over() == false);
+	game -> mark_board(6);
+	REQUIRE(game -> game_over() == false);
+	game -> mark_board(3);
+	REQUIRE(game -> game_over() == true);
+	manager.save_game(game);
+	game -> start_game("O");
+	game -> mark_board(1);
+	REQUIRE(game -> game_over() == false);
+	game -> mark_board(2);
+	REQUIRE(game -> game_over() == false);
+	game -> mark_board(4);
+	REQUIRE(game -> game_over() == false);
+	game -> mark_board(5);
+	REQUIRE(game -> game_over() == false);
+	game -> mark_board(7);
+	REQUIRE(game -> game_over() == true);
+	manager.save_game(game);
+	manager.get_winner_total(x_wins,o_wins,ties);
+	REQUIRE(x_wins == 1);
+	REQUIRE(o_wins == 1);
+	REQUIRE(ties == 1);
+
 }
